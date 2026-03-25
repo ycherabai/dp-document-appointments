@@ -24,7 +24,7 @@ def notify(message: str):
 
 def check():
     print(f"Opening {URL} ...")
-    with SB(uc=True, headless=True) as sb:
+    with SB(uc=True, headed=True) as sb:
         sb.open(URL)
         sb.sleep(10)
         content = sb.get_page_source()
