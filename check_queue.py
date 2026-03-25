@@ -1,9 +1,8 @@
-import asyncio
 import os
 import sys
 import urllib.request
 import urllib.parse
-import nodriver as uc
+from seleniumbase import SB
 
 URL = "https://berlin.pasport.org.ua/solutions/e-queue"
 NO_SLOTS_TEXT = "Наразі всі місця зайняті."
@@ -23,15 +22,12 @@ def notify(message: str):
     print(f"[NOTIFY] Message sent: {message}")
 
 
-async def check():
+def check():
     print(f"Opening {URL} ...")
-    browser = await uc.start(headless=False, sandbox=False)
-    try:
-        page = await browser.get(URL)
-        await asyncio.sleep(20)
-        content = await page.get_content()
-    finally:
-        browser.stop()
+    with SB(uc=True, headless=True) as sb:
+        sb.open(URL)
+        sb.sleep(10)
+        content = sb.get_page_source()
 
     if "документ" not in content.lower():
         print("ERROR: Page did not load correctly. HTML response:")
@@ -48,5 +44,4 @@ async def check():
 
 
 if __name__ == "__main__":
-    found = asyncio.run(check())
-    sys.exit(0 if found else 0)
+    check()
