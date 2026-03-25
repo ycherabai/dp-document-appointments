@@ -21,7 +21,7 @@ def notify(message: str):
 
 async def check():
     print(f"Opening {URL} ...")
-    browser = await uc.start(headless=False)
+    browser = await uc.start(headless=False, no_sandbox=True)
     try:
         page = await browser.get(URL)
         await asyncio.sleep(12)
