@@ -15,8 +15,9 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update -q
-          sudo apt-get install -y -q xvfb chromium-browser
-          sudo ln -sf /usr/bin/chromium-browser /usr/bin/chromium
+          sudo apt-get install -y -q xvfb
+          wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt-get install -y -q ./google-chrome-stable_current_amd64.deb
 
       - name: Set up Python
         uses: actions/setup-python@v5

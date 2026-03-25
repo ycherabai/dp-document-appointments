@@ -28,7 +28,7 @@ async def check():
     browser = await uc.start(headless=False, sandbox=False)
     try:
         page = await browser.get(URL)
-        await asyncio.sleep(12)
+        await asyncio.sleep(20)
         content = await page.get_content()
     finally:
         browser.stop()
