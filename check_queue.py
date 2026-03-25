@@ -13,7 +13,11 @@ TELEGRAM_CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
 
 
 def notify(message: str):
-    params = urllib.parse.urlencode({"chat_id": TELEGRAM_CHAT_ID, "text": message})
+    params = urllib.parse.urlencode({
+        "chat_id": TELEGRAM_CHAT_ID,
+        "text": message,
+        "disable_web_page_preview": "true",
+    })
     api_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage?{params}"
     urllib.request.urlopen(api_url)
     print(f"[NOTIFY] Message sent: {message}")
@@ -28,6 +32,11 @@ async def check():
         content = await page.get_content()
     finally:
         browser.stop()
+
+    if "документ" not in content.lower():
+        print("ERROR: Page did not load correctly. HTML response:")
+        print(content[:3000])
+        raise RuntimeError("Page validation failed: 'документ' not found in response")
 
     if NO_SLOTS_TEXT in content:
         print("All slots are taken. No notification sent.")
